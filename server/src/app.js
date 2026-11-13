@@ -4,6 +4,9 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 import crypto from 'crypto';
+import path from 'path';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
 
 import { env, isProduction, isTest } from './config/env.js';
 import { isDBConnected } from './config/database.js';
@@ -41,7 +44,7 @@ export function createApp() {
   // 2. Security Headers (Helmet)
   app.use(
     helmet({
-      contentSecurityPolicy: isProduction ? undefined : false,
+      contentSecurityPolicy: false,
       crossOriginResourcePolicy: { policy: 'cross-origin' },
     })
   );
@@ -125,7 +128,21 @@ export function createApp() {
   app.use('/api/v1/nutritionist', nutritionistRoutes);
   app.use('/api/v1/admin', adminRoutes);
 
-  // 9. 404 Route Handler
+  // 8.5 Serve Frontend Production SPA Assets (Unified Full-Stack Deployment)
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
+  const clientDistPath = path.resolve(__dirname, '../../client/dist');
+  if (fs.existsSync(clientDistPath)) {
+    app.use(express.static(clientDistPath));
+    app.get('*', (req, res, next) => {
+      if (req.path.startsWith('/api') || req.path.startsWith('/socket.io')) {
+        return next();
+      }
+      return res.sendFile(path.join(clientDistPath, 'index.html'));
+    });
+  }
+
+  // 9. 404 Route Handler for unmatched API routes
   app.use((req, res, next) => {
     return sendError(
       res,
