@@ -23,10 +23,12 @@ interface LiveConsultationDrawerProps {
 
 export const LiveConsultationDrawer: React.FC<LiveConsultationDrawerProps> = ({
   currentUser,
-  recipientName = currentUser.role === 'dieter' ? 'Maya Lin, Clinical RD' : 'Aarav Mehta (Client)',
-  recipientRole = currentUser.role === 'dieter' ? 'Lead Clinical Nutritionist' : 'Dieter',
+  recipientName,
+  recipientRole,
   roomId = 'consultation-aarav-maya',
 }) => {
+  const displayRecipientName = recipientName || (currentUser.role === 'dieter' ? 'Maya Lin, Clinical RD' : 'Aarav Mehta (Client)');
+  const displayRecipientRole = recipientRole || (currentUser.role === 'dieter' ? 'Lead Clinical Nutritionist' : 'Dieter');
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
@@ -45,7 +47,7 @@ export const LiveConsultationDrawer: React.FC<LiveConsultationDrawerProps> = ({
   const [isPeerTyping, setIsPeerTyping] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const typingTimeoutRef = useRef<any>(null);
 
   useEffect(() => {
     const socket = getSocket();
@@ -60,8 +62,8 @@ export const LiveConsultationDrawer: React.FC<LiveConsultationDrawerProps> = ({
     // Listen for incoming messages (dual-engine: Socket.IO + Browser Cross-Tab)
     const handleMessageReceived = (msg: ChatMessage) => {
       if (msg.roomId === roomId) {
-        setMessages((prev) => {
-          if (prev.some((m) => m.id === msg.id)) return prev;
+        setMessages((prev: ChatMessage[]) => {
+          if (prev.some((m: ChatMessage) => m.id === msg.id)) return prev;
           return [...prev, msg];
         });
       }
@@ -148,7 +150,7 @@ export const LiveConsultationDrawer: React.FC<LiveConsultationDrawerProps> = ({
     const socket = getSocket();
     if (!socket.connected) {
       setTimeout(() => {
-        setMessages((prev) => [
+        setMessages((prev: ChatMessage[]) => [
           ...prev,
           {
             id: `sim-${Date.now()}`,
@@ -214,12 +216,12 @@ export const LiveConsultationDrawer: React.FC<LiveConsultationDrawerProps> = ({
                 </div>
                 <div>
                   <h3 className="font-serif font-bold text-base tracking-tight flex items-center gap-1.5">
-                    {recipientName}
+                    {displayRecipientName}
                     <Shield className="w-3.5 h-3.5 text-lime" />
                   </h3>
                   <div className="flex items-center gap-1.5 text-[11px] text-ivory/70">
                     <span className="w-2 h-2 rounded-full bg-lime inline-block" />
-                    <span>{recipientRole}</span>
+                    <span>{displayRecipientRole}</span>
                     <span className="text-ivory/40">•</span>
                     <span className="font-mono text-[10px] text-lime">Room: {roomId.slice(0, 16)}</span>
                   </div>
@@ -264,7 +266,7 @@ export const LiveConsultationDrawer: React.FC<LiveConsultationDrawerProps> = ({
                 </span>
               </div>
 
-              {messages.map((msg) => {
+              {messages.map((msg: ChatMessage) => {
                 const isMine = msg.sender.userId === currentUser.userId;
                 return (
                   <div
@@ -304,7 +306,7 @@ export const LiveConsultationDrawer: React.FC<LiveConsultationDrawerProps> = ({
                     <span className="w-1.5 h-1.5 rounded-full bg-forest/60 animate-bounce [animation-delay:0.2s]" />
                     <span className="w-1.5 h-1.5 rounded-full bg-forest/60 animate-bounce [animation-delay:0.4s]" />
                   </div>
-                  <span className="text-[11px] italic font-sans">{recipientName} is typing...</span>
+                  <span className="text-[11px] italic font-sans">{displayRecipientName} is typing...</span>
                 </div>
               )}
 
