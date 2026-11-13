@@ -26,6 +26,11 @@ jobs:
 
       - name: Run Backend Unit Tests
         run: npm --prefix server run test:unit
+        env:
+          NODE_ENV: test
+          MONGODB_URI: mongodb://127.0.0.1:27017/nutritrack_test
+          JWT_ACCESS_SECRET: nutritrack_jwt_access_super_secure_key_2026_dev_mode_32chars
+          REFRESH_TOKEN_SECRET: nutritrack_refresh_secret_key_extremely_secure_2026_dev_mode
 
   frontend-build:
     name: Frontend TypeScript & Vite Production Build

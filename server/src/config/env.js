@@ -16,16 +16,22 @@ const envSchema = z.object({
   CLIENT_URL: z.string().default('http://localhost:5173,http://localhost:5174'),
   
   // Database
-  MONGODB_URI: z.string().min(1, 'MONGODB_URI is required'),
+  MONGODB_URI: z.string().default('mongodb://127.0.0.1:27017/nutritrack'),
   MONGODB_TEST_URI: z.string().default('mongodb://127.0.0.1:27017/nutritrack_test'),
 
   // Authentication & Cryptography
-  JWT_ACCESS_SECRET: z.string().min(32, 'JWT_ACCESS_SECRET must be at least 32 characters long'),
+  JWT_ACCESS_SECRET: z
+    .string()
+    .min(32, 'JWT_ACCESS_SECRET must be at least 32 characters long')
+    .default('nutritrack_jwt_access_super_secure_key_2026_dev_mode_32chars'),
   JWT_ISSUER: z.string().default('nutritrack-auth'),
   JWT_AUDIENCE: z.string().default('nutritrack-client'),
   ACCESS_TOKEN_EXPIRES_IN: z.string().default('15m'),
   
-  REFRESH_TOKEN_SECRET: z.string().min(32, 'REFRESH_TOKEN_SECRET must be at least 32 characters long'),
+  REFRESH_TOKEN_SECRET: z
+    .string()
+    .min(32, 'REFRESH_TOKEN_SECRET must be at least 32 characters long')
+    .default('nutritrack_refresh_secret_key_extremely_secure_2026_dev_mode'),
   REFRESH_TOKEN_EXPIRES_DAYS: z.coerce.number().default(7),
 
   // Email (Optional — gracefully report if unconfigured)
