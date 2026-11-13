@@ -1,0 +1,12 @@
+{
+  "name": "nutritrack-monorepo",
+  "version": "1.0.0",
+  "description": "NutriTrack — Editorial Kinfolk-Inspired Nutrition & Diet Planning Platform",
+  "scripts": {
+    "dev": "npm --prefix client run dev",
+    "build": "npm --prefix client run build",
+    "client:dev": "npm --prefix client run dev",
+    "client:build": "npm --prefix client run build",
+    "server:dev": "npm --prefix server run dev"
+  }
+}

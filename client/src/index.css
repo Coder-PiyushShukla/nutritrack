@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-forest: #174A3A;
+    --color-ivory: #F6F4EA;
+    --color-lime: #C6E86B;
+  }
+
+  body {
+    background-color: #F6F4EA;
+    color: #174A3A;
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  h1, h2, h3, h4, .font-serif {
+    font-family: 'Fraunces', Georgia, serif;
+    font-feature-settings: "wonk" 1, "opsz" 36;
+  }
+}
+
+/* Hairline dividers & custom subtle scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #F6F4EA;
+}
+::-webkit-scrollbar-thumb {
+  background: #174A3A33;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #174A3A66;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Editorial subtle paper grain overlay */
+.paper-grain {
+  background-image: radial-gradient(rgba(23, 74, 58, 0.04) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+.paper-grain-dark {
+  background-image: radial-gradient(rgba(198, 232, 107, 0.05) 1px, transparent 0);
+  background-size: 24px 24px;
+}

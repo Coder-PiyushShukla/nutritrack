@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  # 1. MongoDB Database Container
+  mongodb:
+    image: mongo:7.0
+    container_name: nutritrack-mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: nutritrack
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - nutritrack-network
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # 2. NutriTrack Backend REST API & WebSocket Server
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: nutritrack-backend
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      NODE_ENV: production
+      PORT: 5000
+      MONGODB_URI: mongodb+srv://shuklaprinshi456_db_user:Uockv6PQpoTEA93V@cluster0.nu0favd.mongodb.net/nutritrack?retryWrites=true&w=majority
+      CLIENT_URL: http://localhost,http://localhost:80,http://localhost:5173,http://localhost:3000
+      JWT_ACCESS_SECRET: nutritrack_jwt_access_super_secure_key_2026_dev_mode_32chars
+      JWT_ISSUER: nutritrack-auth
+      JWT_AUDIENCE: nutritrack-client
+      ACCESS_TOKEN_EXPIRES_IN: 15m
+      REFRESH_TOKEN_SECRET: nutritrack_refresh_secret_key_extremely_secure_2026_dev_mode
+      REFRESH_TOKEN_EXPIRES_DAYS: 7
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    networks:
+      - nutritrack-network
+
+  # 3. NutriTrack Frontend Client (Nginx)
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: nutritrack-frontend
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - server
+    networks:
+      - nutritrack-network
+
+networks:
+  nutritrack-network:
+    driver: bridge
+
+volumes:
+  mongo_data:
+    driver: local
+
