@@ -265,7 +265,7 @@ export const Login: React.FC = () => {
                     type="email"
                     required
                     value={email}
-                    onChange={(e) => {
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                       setEmail(e.target.value);
                       setErrorMessage(null);
                     }}
@@ -286,7 +286,7 @@ export const Login: React.FC = () => {
                     type="password"
                     required
                     value={password}
-                    onChange={(e) => {
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                       setPassword(e.target.value);
                       setErrorMessage(null);
                     }}
@@ -363,7 +363,7 @@ export const Login: React.FC = () => {
                   required
                   placeholder="e.g. Priyanshu Sharma"
                   value={signupName}
-                  onChange={(e) => setSignupName(e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSignupName(e.target.value)}
                   className="w-full px-4 py-3 bg-ivory-light border border-forest/15 rounded-xl text-sm text-forest focus:outline-none focus:ring-2 focus:ring-lime font-medium"
                 />
               </div>
@@ -377,7 +377,7 @@ export const Login: React.FC = () => {
                   required
                   placeholder="your.email@sanctuary.com"
                   value={signupEmail}
-                  onChange={(e) => setSignupEmail(e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSignupEmail(e.target.value)}
                   className="w-full px-4 py-3 bg-ivory-light border border-forest/15 rounded-xl text-sm text-forest focus:outline-none focus:ring-2 focus:ring-lime font-medium"
                 />
               </div>
@@ -392,7 +392,7 @@ export const Login: React.FC = () => {
                   minLength={6}
                   placeholder="Minimum 6 characters"
                   value={signupPassword}
-                  onChange={(e) => setSignupPassword(e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSignupPassword(e.target.value)}
                   className="w-full px-4 py-3 bg-ivory-light border border-forest/15 rounded-xl text-sm text-forest focus:outline-none focus:ring-2 focus:ring-lime font-medium"
                 />
               </div>

@@ -89,12 +89,12 @@ export function getSocket(): Socket {
       dispatchEvent('connection:status', { connected: true, id: socket?.id });
     });
 
-    socket.on('disconnect', (reason) => {
+    socket.on('disconnect', (reason: any) => {
       console.log('🔌 [Socket.IO Client] Disconnected:', reason);
       dispatchEvent('connection:status', { connected: false, reason });
     });
 
-    socket.on('connect_error', (err) => {
+    socket.on('connect_error', (err: any) => {
       console.warn('⚠️ [Socket.IO Client] Backend offline, cross-tab sync active:', err.message);
       dispatchEvent('connection:status', { connected: false, error: err.message });
     });

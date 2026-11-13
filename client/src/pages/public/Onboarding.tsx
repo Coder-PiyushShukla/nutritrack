@@ -257,7 +257,7 @@ export const Onboarding: React.FC = () => {
                       type="number"
                       step="0.1"
                       value={currentWeight}
-                      onChange={(e) => setCurrentWeight(parseFloat(e.target.value) || 68)}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCurrentWeight(parseFloat(e.target.value) || 68)}
                       className="w-full text-2xl font-mono font-bold text-forest bg-white border border-forest/15 rounded-xl px-4 py-2 focus:ring-2 focus:ring-lime focus:outline-none"
                     />
                     <span className="text-sm font-mono text-forest/60">kg</span>
@@ -273,7 +273,7 @@ export const Onboarding: React.FC = () => {
                       type="number"
                       step="0.1"
                       value={targetWeight}
-                      onChange={(e) => setTargetWeight(parseFloat(e.target.value) || 65)}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTargetWeight(parseFloat(e.target.value) || 65)}
                       className="w-full text-2xl font-mono font-bold text-forest bg-white border border-forest/15 rounded-xl px-4 py-2 focus:ring-2 focus:ring-lime focus:outline-none"
                     />
                     <span className="text-sm font-mono text-forest/60">kg</span>
@@ -390,7 +390,7 @@ export const Onboarding: React.FC = () => {
                   max="3200"
                   step="50"
                   value={calories}
-                  onChange={(e) => setCalories(parseInt(e.target.value, 10))}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCalories(parseInt(e.target.value, 10))}
                   className="w-full accent-forest cursor-pointer"
                 />
 

@@ -159,9 +159,9 @@ export const DieterDashboard: React.FC = () => {
 
             <div className="space-y-6">
               {mealCategories.map((category) => {
-                const categoryMeals = meals.filter((m) => m.category === category);
+                const categoryMeals = meals.filter((m: any) => m.category === category);
                 const categoryKcal = categoryMeals.reduce(
-                  (sum, m) => sum + Math.round(m.calories * m.portion),
+                  (sum: number, m: any) => sum + Math.round(m.calories * m.portion),
                   0
                 );
 
@@ -197,7 +197,7 @@ export const DieterDashboard: React.FC = () => {
                       </p>
                     ) : (
                       <div className="space-y-3">
-                        {categoryMeals.map((meal) => (
+                        {categoryMeals.map((meal: any) => (
                           <div
                             key={meal.id}
                             className="flex items-center justify-between p-3 rounded-xl bg-ivory-light/80 hover:bg-ivory-light transition-colors border border-forest/5 group"
@@ -397,7 +397,7 @@ export const DieterDashboard: React.FC = () => {
                     type="number"
                     step="0.1"
                     value={weightInput}
-                    onChange={(e) => setWeightInput(e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWeightInput(e.target.value)}
                     className="w-full px-4 py-2.5 bg-ivory-light border border-forest/15 rounded-xl text-sm font-semibold text-forest focus:outline-none focus:ring-2 focus:ring-lime"
                   />
                   <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-forest/50 font-mono">
@@ -414,7 +414,7 @@ export const DieterDashboard: React.FC = () => {
 
               {/* Sparkline list of recent records */}
               <div className="flex items-center justify-between text-xs text-forest/70 pt-1">
-                {weightHistory.slice(-4).map((entry, idx) => (
+                {weightHistory.slice(-4).map((entry: any, idx: number) => (
                   <div key={idx} className="text-center">
                     <span className="text-[10px] text-forest/40 block">{entry.date}</span>
                     <span className="font-mono font-bold">{entry.weight} kg</span>
